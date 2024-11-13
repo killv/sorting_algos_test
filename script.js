@@ -33,6 +33,7 @@ async function startRace() {
         const canvas = document.querySelector(`#${algo.id} canvas`);
         const ctx = canvas.getContext('2d');
         const iterationsElement = document.getElementById(`${algo.id}Iterations`);
+
         algo.sort([...startList], ctx, iterationsElement).then(() => {
             i++;
             if (algorithms[i]) run(i);
@@ -78,6 +79,7 @@ function bubbleSort(arr, ctx, iterationsElement) {
 function mergeSort(arr, ctx, iterationsElement) {
     return new Promise(resolve => {
         let iterations = 0;
+        drawArray(arr, ctx);
 
         function mergeSortHelper(arr) {
             if (arr.length <= 1) return arr;
@@ -109,6 +111,7 @@ function mergeSort(arr, ctx, iterationsElement) {
         }
 
         mergeSortHelper(arr);
+
         resolve();
     });
 }
