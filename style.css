@@ -40,3 +40,18 @@ body {
     height: 200px;
     margin-bottom: 10px;
 }
+
+@media (max-width: 1200px) {
+    .container {
+        gap: 10px;
+    }
+
+    .algorithm {
+        padding: 10px;
+    }
+
+    .algorithm canvas {
+        height: 160px;
+        margin-bottom: 5px;
+    }
+}
