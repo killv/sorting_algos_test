@@ -53,7 +53,7 @@ function bubbleSort(arr, ctx, iterationsElement) {
                     }
                     iterations++;
                     iterationsElement.textContent = iterations;
-                    if (i % 10 === 0) drawArray(arr, ctx);
+                    drawArray(arr, ctx);
                     j++;
                 } else {
                     j = 0;
@@ -131,7 +131,6 @@ function quickSort(arr, ctx, iterationsElement) {
                     iterations++;
                     iterationsElement.textContent = iterations;
                     drawArray(arr, ctx);
-                    // setTimeout(() => {}, 10); // Задержка для визуализации
                 }
             }
 
