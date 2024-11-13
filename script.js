@@ -19,9 +19,14 @@ const algorithms = [
     {id: 'insertionSort', sort: insertionSort}
 ];
 
+function createStartList(length) {
+    // create linear array and shuffle
+    return Array.from({length}, () => Math.floor(Math.random() * 100));
+}
+
 async function startRace() {
     const startListLength = parseInt(document.getElementById('startListLength').value) || 30;
-    const startList = Array.from({length: startListLength}, () => Math.floor(Math.random() * 100));
+    const startList = createStartList(startListLength);
 
     function run(i = 0) {
         const algo = algorithms[i];
