@@ -1,4 +1,15 @@
 document.getElementById('startRace').addEventListener('click', startRace);
+document.getElementById('startListLength').addEventListener('input', validateInput);
+
+function validateInput(event) {
+    const input = event.target;
+    const value = parseInt(input.value);
+    if (isNaN(value) || value < input.min) {
+        input.value = input.min;
+    } else if (value > input.max) {
+        input.value = input.max;
+    }
+}
 
 const algorithms = [
     {id: 'bubbleSort', sort: bubbleSort},
@@ -12,20 +23,19 @@ async function startRace() {
     const startListLength = parseInt(document.getElementById('startListLength').value) || 30;
     const startList = Array.from({length: startListLength}, () => Math.floor(Math.random() * 100));
 
-    function next(i = 0) {
+    function run(i = 0) {
         const algo = algorithms[i];
-        console.log(algo);
         const canvas = document.querySelector(`#${algo.id} canvas`);
         const ctx = canvas.getContext('2d');
         const iterationsElement = document.getElementById(`${algo.id}Iterations`);
         algo.sort([...startList], ctx, iterationsElement).then(() => {
             i++;
-            if (algorithms[i]) next(i);
+            if (algorithms[i]) run(i);
             else console.log('done');
         });
     }
 
-    next();
+    run();
 }
 
 function bubbleSort(arr, ctx, iterationsElement) {
@@ -43,13 +53,14 @@ function bubbleSort(arr, ctx, iterationsElement) {
                     }
                     iterations++;
                     iterationsElement.textContent = iterations;
-                    drawArray(arr, ctx);
+                    if (i % 10 === 0) drawArray(arr, ctx);
                     j++;
                 } else {
                     j = 0;
                     i++;
                 }
-                setTimeout(step, 1); // Задержка для визуализации
+                
+                actionDelay(i, step); // Задержка для визуализации
             } else {
                 resolve();
             }
@@ -180,6 +191,14 @@ function heapSort(arr, ctx, iterationsElement) {
     });
 }
 
+function actionDelay(i, action) {
+    if (i % 5 == 0) {
+        setTimeout(action, 2); // Задержка для визуализации
+    } else {
+        action();
+    }
+}
+
 function insertionSort(arr, ctx, iterationsElement) {
     return new Promise(resolve => {
         let iterations = 0;
@@ -195,11 +214,7 @@ function insertionSort(arr, ctx, iterationsElement) {
                     iterationsElement.textContent = iterations;
                     drawArray(arr, ctx);
                     
-                    if (i % 10 == 0) {
-                        setTimeout(step, 1); // Задержка для визуализации
-                    } else {
-                        step();
-                    }
+                    actionDelay(i, step); 
 
                 } else {
                     i++;
